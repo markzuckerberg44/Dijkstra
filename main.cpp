@@ -236,15 +236,18 @@ public:
 int main()
 {
     Graph *graph = new Graph();
-
+    // string file_name; (activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
+    
     // generamos nuestra matriz
     string file_name = "matrixTest.txt";
+
+    //cin >> file_name; (activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
+
     graph->readFile(file_name);
 
     // Preguntamos al usuario a que nodo quiere ir
     graph->askNode();
 
     delete graph;
-
     return 0;
 }
