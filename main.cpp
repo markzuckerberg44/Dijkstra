@@ -39,13 +39,26 @@ public:
         cout << endl;
     }
 
+    char IntToChar(int num) {
+
+        if (num > 27 || num < 0) {
+
+            cout << "nodo invalido" << endl;
+            return '0';
+        }
+
+        string abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return abc[num];
+
+    }
+
     void readFile(string file_name)
     {
         ifstream arch(file_name);
 
         if (!arch.is_open())
         {
-            cout << "Error en la apertura del archivo" << endl;
+            cout << "Error en la apertura del archivo, verificar el nombre del archivo" << endl;
             return;
         }
 
@@ -66,32 +79,39 @@ public:
     void askNode()
     {
         showNodes();
+        int nodeNumeric = -1;
+        do {
+            char node;
+            cout << "¿A qué nodo quieres ir? ";
+            cin >> node;
 
-        char node;
-        cout << "A que nodo quieres ir? ";
-        cin >> node;
+            // Convertimos el nodo a mayúsculas por si el usuario ingresa una letra minúscula
+            node = toupper(node);
 
-        node = (char)toupper(node);
+            string abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+             
+            bool flag = false;
 
-        string abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        int nodeNumeric;
-        bool flag = false;
-
-        for (int i = 0; i < abc.size(); i++)
-        {
-            if (abc[i] == node)
-            {
-                nodeNumeric = i;
-                flag = true;
+            // Buscamos el índice del nodo ingresado
+            for (int i = 0; i < num_nodes; i++) {
+                if (abc[i] == node) {
+                    nodeNumeric = i;
+                    flag = true;
+                    break; // Salimos del bucle si encontramos el nodo
+                }
             }
-        }
 
-        // Hacemos validacion de que el nodo exista
-        if (flag == false)
-        {
-            cout << "El nodo no existe" << endl;
-            return;
-        }
+            // Validamos si el nodo existe
+            if (flag == false || nodeNumeric >= num_nodes || nodeNumeric == -1) {
+                cout << "El nodo no existe o no es válido. Por favor, ingrese un nodo válido." << endl;
+            } else {
+                
+                break; // Salimos del bucle si el nodo es válido
+            }
+
+        } while (true);
+
+        
 
         dijkstra(0, nodeNumeric); // sabemos que el nodo de inicio siempre sera 0
     }
@@ -190,7 +210,7 @@ public:
 
         if (dist[end] == INT_MAX)
         {
-            cout << "No existe un camino hacia el nodo " << end << "." << endl;
+            cout << "No existe un camino hacia el nodo " << IntToChar(end) << "." << endl; // *****
         }
         else
         {
@@ -236,14 +256,21 @@ public:
 int main()
 {
     Graph *graph = new Graph();
-    // string file_name; (activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
+    //string file_name; //(activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
     
     // generamos nuestra matriz
     string file_name = "matrixTest.txt";
 
-    //cin >> file_name; (activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
+    //cout << "Nombre del archivo" << endl; //(activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
+    //cout << ">"; //(activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
+    // cin >> file_name; //(activar esta linea si se quiere que el usuario ingrese el nombre del archivo)
 
     graph->readFile(file_name);
+
+    if (graph->num_nodes == 0) {
+        cout << "No se pudo cargar el grafo. Finalizando programa ..." << endl;
+        return 0;
+    }
 
     // Preguntamos al usuario a que nodo quiere ir
     graph->askNode();
