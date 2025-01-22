@@ -82,7 +82,7 @@ public:
         int nodeNumeric = -1;
         do {
             char node;
-            cout << "¿A qué nodo quieres ir? ";
+            cout << "¿A que nodo quieres ir? ";
             cin >> node;
 
             // Convertimos el nodo a mayúsculas por si el usuario ingresa una letra minúscula
@@ -103,7 +103,7 @@ public:
 
             // Validamos si el nodo existe
             if (flag == false || nodeNumeric >= num_nodes || nodeNumeric == -1) {
-                cout << "El nodo no existe o no es válido. Por favor, ingrese un nodo válido." << endl;
+                cout << "El nodo no existe o no es valido. Por favor, ingrese un nodo valido." << endl;
             } else {
                 
                 break; // Salimos del bucle si el nodo es válido
